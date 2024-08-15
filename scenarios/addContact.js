@@ -1,20 +1,11 @@
-import {check, fail} from 'k6';
+import {check, fail, sleep} from 'k6';
 import {addContact, logout} from '../utils/httpUtil.js';
 import {testData} from '../data/testData.js'
 import {loginAndGetToken} from "../utils/dataUtil.js";
 import {contactSchema} from "../schemas/contact.js";
 import {expect} from 'https://jslib.k6.io/k6chaijs/4.3.4.0/index.js';
 
-export const addContactScenario = {
-    executor: 'per-vu-iterations',
-    vus: testData.users.length,
-    iterations: 3,
-    exec: 'addContactExec',
-    maxDuration: '10s'
-};
-
-export function addContactExec() {
-    const token = loginAndGetToken();
+export function addContactExec(token) {
     const cidx = Math.floor(Math.random() * testData.contacts.length);
     const contact = testData.contacts[cidx];
 
@@ -31,10 +22,5 @@ export function addContactExec() {
     const contactId = contactResponse.json()._id;
     check(contactId, {
         'Contact is created': (id) => id !== null,
-    });
-
-    const logoutResponse = logout(token);
-    check(logoutResponse, {
-        'Logout successful': r => r.status === 200
     });
 }

@@ -1,4 +1,4 @@
-import {check, fail} from 'k6';
+import {check, fail, sleep} from 'k6';
 import {testData} from "../data/testData.js";
 import {getContactList, login} from "./httpUtil.js";
 import { expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.0/index.js';
@@ -13,6 +13,7 @@ export function getRandomUser() {
 export function loginAndGetToken() {
     const user = getRandomUser();
     const loginResponse = login(user);
+    sleep(10);
     const checkOutput = check(loginResponse, {
         'User is logged in': r => r.status === 200
     });

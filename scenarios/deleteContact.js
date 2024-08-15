@@ -1,21 +1,8 @@
 import {check, fail} from 'k6';
-import {getContact, deleteContact, logout} from '../utils/httpUtil.js';
-import {testData} from "../data/testData.js";
+import {getContact, deleteContact, logout, getContactList} from '../utils/httpUtil.js';
 import {getRandomContact, loginAndGetToken} from "../utils/dataUtil.js";
-import { expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.0/index.js';
-import {contactSchema} from "../schemas/contact.js";
 
-export const deleteContactScenario = {
-    executor: 'per-vu-iterations',
-    vus: testData.users.length,
-    iterations: 3,
-    exec: 'deleteContactExec',
-    maxDuration: '10s',
-    startTime: '20s'
-};
-
-export function deleteContactExec() {
-    const token = loginAndGetToken();
+export function deleteContactExec(token) {
     const contact = getRandomContact(token);
 
     const deleteResponse = deleteContact(token, contact._id);
@@ -27,13 +14,13 @@ export function deleteContactExec() {
         fail('Delete request failed');
     }
 
-    const checkDeletion = getContact(token, contact._id);
-    check(checkDeletion, {
-        'Contact is deleted': r => r.status === 404
+    const contactListResponse = getContactList(token);
+    check(contactListResponse, {
+        'Contact list request is successful': r => r.status === 200
     });
 
-    const logoutResponse = logout(token);
-    check(logoutResponse, {
-        'Logout successful': r => r.status === 200
+    const contactDeleted = contactListResponse.json().some(c => c._id === contact._id)
+    check(contactDeleted, {
+        'Contact is deleted': (isDeleted) => !isDeleted
     });
 }
