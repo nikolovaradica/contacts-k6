@@ -4,8 +4,8 @@ export const testData = {
     users: [
         {email: 'contact1@k6.com', password: 'myPassword1'},
         {email: 'contact2@k6.com', password: 'myPassword2'},
-        {email: 'contact3@k6.com', password: 'myPassword3'},
-        {email: 'contact4@k6.com', password: 'myPassword4'},
+        // {email: 'contact3@k6.com', password: 'myPassword3'},
+        // {email: 'contact4@k6.com', password: 'myPassword4'},
         // {email: 'contact5@k6.com', password: 'myPassword5'}
     ],
     contact: createRandomContact()
@@ -15,9 +15,9 @@ function createRandomContact() {
     return {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        birthdate: faker.date.past(),
+        birthdate: faker.date.past().toISOString().split('T')[0],
         email: faker.internet.email(),
-        phone: faker.phone.phoneNumberFormat(),
+        phone: faker.phone.phoneNumber('##########'),
         street1: faker.address.streetAddress(),
         street2: faker.address.streetAddress(),
         city: faker.address.city(),
