@@ -6,8 +6,7 @@ import {contactSchema} from "../schemas/contact.js";
 import {expect} from 'https://jslib.k6.io/k6chaijs/4.3.4.0/index.js';
 
 export function addContactExec(token) {
-    const cidx = Math.floor(Math.random() * testData.contacts.length);
-    const contact = testData.contacts[cidx];
+    const contact = testData.contact;
 
     const contactResponse = addContact(token, contact);
     const contactCheck = check(contactResponse, {
