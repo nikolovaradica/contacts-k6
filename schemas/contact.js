@@ -55,18 +55,7 @@ export const contactListSchema = {
         },
         "required": [
             "_id",
-            "firstName",
-            "lastName",
-            "birthdate",
-            "email",
-            "phone",
-            "street1",
-            "city",
-            "stateProvince",
-            "postalCode",
-            "country",
-            "owner",
-            "__v"
+            "firstName"
         ]
     }
 }

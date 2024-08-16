@@ -7,7 +7,8 @@ import {contactSchema} from "../schemas/contact.js";
 export function updateContactExec(token) {
     const contact = getRandomContact(token);
     const updatedContact = {
-        firstName: 'Radica'
+        firstName: 'Radica',
+        birthdate: '2002-05-01'
     };
 
     const updateResponse = updateContact(token, contact._id, updatedContact);

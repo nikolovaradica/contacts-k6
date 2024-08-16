@@ -12,7 +12,7 @@ initContractPlugin(chai)
 
 export const options = {
     vus: testData.users.length,
-    iterations: 4,
+    iterations: 15,
     thresholds: {
         'http_req_duration': ['p(95) < 500'],
         'http_req_failed': ['rate<0.01']
@@ -27,7 +27,6 @@ export default function () {
     deleteContactExec(token);
 
     const logoutResponse = logout(token);
-    sleep(10);
     check(logoutResponse, {
         'Logout successful': r => r.status === 200
     });

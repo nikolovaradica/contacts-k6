@@ -11,9 +11,9 @@ export function getRandomUser() {
 }
 
 export function loginAndGetToken() {
-    const user = getRandomUser();
+    // const user = getRandomUser();
+    const user = testData.users[__VU - 1];
     const loginResponse = login(user);
-    sleep(10);
     const checkOutput = check(loginResponse, {
         'User is logged in': r => r.status === 200
     });
